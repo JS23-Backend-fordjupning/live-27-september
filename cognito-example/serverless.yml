@@ -1,0 +1,44 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: zocom
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: cognito-example
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-north-1
+  iam:
+    role: arn:aws:iam::497180550327:role/lecture-role
+
+build:
+  esbuild:
+    minify: true
+
+package:
+  individually: true
+
+functions:
+  Signup:
+    handler: functions/Signup/index.handler
+    events:
+      - httpApi:
+          path: /auth/signup
+          method: post
+  ConfirmSignup:
+    handler: functions/ConfirmSignup/index.handler
+    events:
+      - httpApi:
+          path: /auth/confirm
+          method: post
+  Login:
+    handler: functions/Login/index.handler
+    events:
+      - httpApi:
+          path: /auth/login
+          method: post
+  GetUser:
+    handler: functions/GetUser/index.handler
+    events:
+      - httpApi:
+          path: /user
+          method: get
